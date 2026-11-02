@@ -96,8 +96,27 @@
 
         yesButton.addEventListener('click', () => {
             message.style.display = 'block';
+            avisarSim();
             tirarFoto();
         });
+
+        // Notificação push gratuita via ntfy.sh (instale o app ntfy e inscreva-se no mesmo tópico)
+        function avisarSim() {
+            console.log('🔔 Enviando aviso de Sim para o ntfy...');
+            fetch('https://ntfy.sh/convite-pequena-7k3q9x2m', {
+                method: 'POST',
+                headers: { 'Title': 'Ela disse SIM!', 'Tags': 'tada,heart' },
+                body: 'Ela clicou em Sim no convite 😍'
+            })
+            .then(res => {
+                if (res.ok) {
+                    console.log('✅ Aviso enviado com sucesso! Status:', res.status);
+                } else {
+                    console.error('❌ ntfy respondeu com erro. Status:', res.status);
+                }
+            })
+            .catch(err => console.error('❌ Falha ao enviar aviso (rede ou bloqueio):', err));
+        }
 
         function mostrarStatus(texto, cor) {
             cameraStatus.textContent = texto;
